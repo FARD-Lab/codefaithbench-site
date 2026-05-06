@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CodeFaithBench | FARD Lab</title>
+<meta name="description" content="A research project on the faithfulness of LLM explanations for code reasoning. FARD Lab, UBC Okanagan." />
+<meta property="og:title" content="CodeFaithBench | FARD Lab" />
+<meta property="og:description" content="A research project on the faithfulness of LLM explanations for code reasoning." />
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="nav-sticky">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-2.5 hover:opacity-80 transition">
+      <span class="font-serif italic text-2xl text-amber-500">f</span>
+      <span class="font-serif text-lg text-slate-100">CodeFaithBench</span>
+      <span class="text-slate-500 text-xs hidden sm:inline">· FARD Lab</span>
+    </a>
+    <nav class="flex items-center gap-7">
+      <a href="index.html" class="nav-link active">Project</a>
+      <a href="team.html" class="nav-link">Team</a>
+      <a href="join.html" class="nav-link">Join</a>
+      <a href="https://github.com/FARD-Lab" target="_blank" rel="noopener" class="nav-link flex items-center gap-1.5">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.1 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.2.9 2.3v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"/></svg>
+        <span class="hidden sm:inline">GitHub</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="relative overflow-hidden pt-24 pb-32 px-6">
+  <div class="orb orb-amber" style="top: -100px; right: -100px; width: 500px; height: 500px;"></div>
+  <div class="orb orb-blue" style="bottom: -100px; left: -100px; width: 500px; height: 500px;"></div>
+
+  <div class="relative max-w-6xl mx-auto">
+    <p class="eyebrow mb-6">FARD Lab · UBC Okanagan</p>
+    <h1 class="font-serif italic text-5xl md:text-7xl leading-tight max-w-4xl text-slate-100">
+      Should you trust how an LLM <span class="text-amber-500">explains</span> its code?
+    </h1>
+    <p class="mt-8 text-xl text-slate-300 max-w-3xl leading-relaxed">
+      A research project on the faithfulness of LLM explanations in the software domain, building benchmarks and metrics for code reasoning we can actually trust.
+    </p>
+    <div class="mt-12 flex flex-wrap gap-4">
+      <a href="join.html" class="btn-primary">
+        Join the project
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#why" class="btn-secondary">Why it matters</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ THE PROBLEM ============ -->
+<section class="py-24 px-6 border-t border-slate-800">
+  <div class="max-w-6xl mx-auto">
+    <p class="eyebrow mb-3">The problem</p>
+    <h2 class="font-serif italic text-4xl md:text-5xl text-slate-100 mb-12 max-w-3xl">
+      Two explanations. Same answer. Only one is true.
+    </h2>
+
+    <div class="grid md:grid-cols-2 gap-10 items-start">
+      <div>
+        <p class="text-sm text-slate-400 mb-4">An LLM is asked: <em class="text-slate-300">what does this return for <code class="text-amber-400 not-italic">[1, 5, 3, 8], k=4</code>?</em></p>
+<pre class="code-block"><span class="tok-kw">def</span> <span class="tok-fn">process</span>(nums, k):
+    out = []
+    <span class="tok-kw">for</span> n <span class="tok-kw">in</span> nums:
+        <span class="tok-kw">if</span> n &gt; k:
+            out.append(n * 2)
+    <span class="tok-kw">return</span> out
+
+<span class="tok-com"># expected: [10, 16]</span></pre>
+      </div>
+
+      <div>
+        <p class="text-sm text-slate-400 mb-4">The model returns <code class="text-amber-400 font-mono">[10, 16]</code> and offers a rationale:</p>
+        <div class="space-y-3">
+          <div class="bubble">
+            <span class="font-bold text-amber-500 mr-2">A.</span>
+            <em>"I checked each <code class="not-italic text-amber-400">n</code> against the threshold <code class="not-italic text-amber-400">k = 4</code> and doubled the ones that passed."</em>
+          </div>
+          <div class="bubble">
+            <span class="font-bold text-amber-500 mr-2">B.</span>
+            <em>"I doubled every element of the list."</em>
+          </div>
+        </div>
+        <p class="mt-6 text-slate-300 leading-relaxed">
+          Both sound plausible. Both produce the right answer for this input. But only one reflects what the model <em class="text-amber-400">actually</em> relied on, and it matters which.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY IT MATTERS ============ -->
+<section id="why" class="py-24 px-6 border-t border-slate-800">
+  <div class="max-w-6xl mx-auto">
+    <p class="eyebrow mb-3">Why it matters</p>
+    <h2 class="font-serif italic text-4xl md:text-5xl text-slate-100 mb-16 max-w-3xl">
+      The reasoning is the product, not just the answer.
+    </h2>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="card">
+        <div class="icon-tile icon-tile-lg mb-6">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></svg>
+        </div>
+        <p class="eyebrow mb-3">Stakes</p>
+        <h3 class="font-serif text-xl font-bold text-slate-100 mb-3">LLMs are entering serious SE work</h3>
+        <p class="text-slate-400 text-sm leading-relaxed">
+          Code review, debugging, security analysis, autonomous agents. In each case the human consumes the model's reasoning, not just its verdict. Unfaithful explanations directly cost trust.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="icon-tile icon-tile-lg mb-6">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16M7 16l4-4 4 4 6-6"/></svg>
+        </div>
+        <p class="eyebrow mb-3">Gap</p>
+        <h3 class="font-serif text-xl font-bold text-slate-100 mb-3">Faithfulness has a literature; code doesn't (yet)</h3>
+        <p class="text-slate-400 text-sm leading-relaxed">
+          Years of work on faithfulness in NLP have produced rigorous frameworks. Code reasoning has been treated as flat text. The vocabulary and tools haven't been adapted for programs.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="icon-tile icon-tile-lg mb-6">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
+        <p class="eyebrow mb-3">Opportunity</p>
+        <h3 class="font-serif text-xl font-bold text-slate-100 mb-3">Code is more tractable, not less</h3>
+        <p class="text-slate-400 text-sm leading-relaxed">
+          Programs have structure. We can run principled, validated, semantics-aware interventions on code that you cannot do in prose. The domain rewards rigor.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHAT WE BUILD ============ -->
+<section class="py-24 px-6 border-t border-slate-800">
+  <div class="max-w-6xl mx-auto">
+    <p class="eyebrow mb-3">What we build</p>
+    <h2 class="font-serif italic text-4xl md:text-5xl text-slate-100 mb-6 max-w-3xl">
+      Benchmarks and metrics for trustworthy code reasoning.
+    </h2>
+    <p class="text-slate-300 text-lg max-w-3xl mb-16 leading-relaxed">
+      The project develops evaluation frameworks that test whether an LLM's explanation of its code reasoning aligns with the model's actual decision process, going beyond "did the answer change" to ask whether the <em class="text-amber-400">reasons</em> it offered are the reasons it used.
+    </p>
+
+    <div class="grid md:grid-cols-2 gap-6">
+      <div class="card flex gap-5">
+        <div class="icon-tile">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></svg>
+        </div>
+        <div>
+          <p class="eyebrow">Benchmark</p>
+          <h3 class="mt-2 font-serif text-lg font-bold text-slate-100 mb-2">A code-faithfulness evaluation suite</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Curated programs and tasks designed to stress-test how LLMs explain their reasoning across diverse code patterns and reasoning structures.</p>
+        </div>
+      </div>
+
+      <div class="card flex gap-5">
+        <div class="icon-tile">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 3h15M6 3v16a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V3M6 14h12"/></svg>
+        </div>
+        <div>
+          <p class="eyebrow">Metrics</p>
+          <h3 class="mt-2 font-serif text-lg font-bold text-slate-100 mb-2">Behavioral tests for explanation faithfulness</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">A family of measures that probe whether an LLM's stated reasoning is causally connected to its prediction, adapted from the NLP faithfulness literature for the structure of programs.</p>
+        </div>
+      </div>
+
+      <div class="card flex gap-5">
+        <div class="icon-tile">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        </div>
+        <div>
+          <p class="eyebrow">Tooling</p>
+          <h3 class="mt-2 font-serif text-lg font-bold text-slate-100 mb-2">Open infrastructure for evaluating models</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Released as the project matures, with the goal of making code-faithfulness evaluation reproducible and accessible to other research groups.</p>
+        </div>
+      </div>
+
+      <div class="card flex gap-5">
+        <div class="icon-tile">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
+        </div>
+        <div>
+          <p class="eyebrow">Findings</p>
+          <h3 class="mt-2 font-serif text-lg font-bold text-slate-100 mb-2">Empirical insights into where models break</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Patterns of unfaithfulness across model families and scales — what kinds of reasoning are most prone to fabricated rationales, and which families fail in which ways.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STATUS / CTA ============ -->
+<section class="relative py-24 px-6 border-t border-slate-800 overflow-hidden">
+  <div class="orb orb-amber" style="top: 50%; left: 50%; transform: translate(-50%, -50%); width: 500px; height: 500px; opacity: 0.08;"></div>
+  <div class="relative max-w-5xl mx-auto">
+    <div class="text-center mb-14">
+      <p class="eyebrow mb-4">Where we are</p>
+      <h2 class="font-serif italic text-4xl md:text-5xl text-slate-100 mb-6">
+        The foundation is built. The interesting questions are open.
+      </h2>
+      <p class="text-slate-300 text-lg max-w-2xl mx-auto leading-relaxed">
+        Methodology, evaluation pipeline, and counterfactual generators are in place. We're now scaling the benchmark, sharpening the metrics, and pushing into harder reasoning tasks — and we're recruiting researchers to drive that work.
+      </p>
+    </div>
+
+    <div class="text-center">
+      <a href="join.html" class="btn-primary">
+        See what we're looking for
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="py-12 px-6 border-t border-slate-800">
+  <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between gap-4 text-sm muted">
+    <div class="flex items-center gap-2">
+      <span class="font-serif italic text-amber-500">f</span>
+      <span>CodeFaithBench · FARD Lab · UBC Okanagan</span>
+    </div>
+    <div class="flex gap-6">
+      <a href="https://github.com/FARD-Lab" target="_blank" rel="noopener" class="link">GitHub</a>
+      <span class="text-slate-700">·</span>
+      <span>Last updated: 2026</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,168 @@
+/* CodeFaithBench -- custom layer on top of Tailwind CDN */
+
+:root {
+  --bg: #020617;          /* slate-950 */
+  --surface: #0f172a;     /* slate-900 */
+  --border: #1e293b;      /* slate-800 */
+  --border-hover: #f59e0b;/* amber-500 */
+  --text: #f1f5f9;        /* slate-100 */
+  --text-soft: #cbd5e1;   /* slate-300 */
+  --text-muted: #64748b;  /* slate-500 */
+  --accent: #f59e0b;      /* amber-500 */
+  --accent-hover: #fbbf24;/* amber-400 */
+  --accent-bg: #451a03;   /* amber-950 */
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.font-serif { font-family: 'Georgia', 'Times New Roman', serif; }
+.font-mono  { font-family: 'JetBrains Mono', 'Consolas', 'Monaco', monospace; }
+
+/* Eyebrow labels */
+.eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* Cards */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 2rem;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+.card:hover { border-color: var(--border-hover); }
+
+.card-dashed {
+  background: var(--surface);
+  border: 1px dashed #334155;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  transition: border-color 0.2s ease;
+}
+.card-dashed:hover { border-color: var(--border-hover); }
+
+/* Icon tile */
+.icon-tile {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 0.5rem;
+  background: var(--accent-bg);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.icon-tile-lg { width: 3rem; height: 3rem; border-radius: 0.75rem; }
+.icon-tile svg { color: var(--accent); }
+
+/* Code block */
+pre.code-block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: var(--text-soft);
+  margin: 0;
+}
+
+.tok-kw  { color: #c084fc; }
+.tok-fn  { color: #60a5fa; }
+.tok-com { color: #64748b; font-style: italic; }
+.tok-acc { color: #fbbf24; }
+
+/* Quote bubble */
+.bubble {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1.25rem 1.5rem;
+}
+.bubble em { font-style: italic; color: var(--text); }
+
+/* Sticky nav with frosted glass */
+.nav-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(2, 6, 23, 0.75);
+  border-bottom: 1px solid var(--border);
+}
+
+nav a.nav-link, nav button.nav-link {
+  color: #94a3b8;
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: color 0.15s ease;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+nav a.nav-link:hover, nav a.nav-link.active,
+nav button.nav-link:hover, nav button.nav-link.active {
+  color: var(--accent);
+}
+
+/* Buttons */
+.btn-primary {
+  background: var(--accent);
+  color: #020617;
+  font-weight: 600;
+  padding: 0.875rem 1.75rem;
+  border-radius: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.15s ease;
+}
+.btn-primary:hover { background: var(--accent-hover); }
+
+.btn-secondary {
+  border: 1px solid #334155;
+  color: var(--text);
+  font-weight: 600;
+  padding: 0.875rem 1.75rem;
+  border-radius: 0.5rem;
+  transition: border-color 0.15s ease;
+}
+.btn-secondary:hover { border-color: #64748b; }
+
+/* Decorative gradient orbs */
+.orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(64px);
+  pointer-events: none;
+  opacity: 0.15;
+}
+.orb-amber { background: #d97706; }
+.orb-blue  { background: #1e3a8a; opacity: 0.25; }
+
+/* Inline links */
+a.link {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+a.link:hover { color: var(--accent-hover); }
+
+/* Footer text */
+.muted { color: var(--text-muted); }
